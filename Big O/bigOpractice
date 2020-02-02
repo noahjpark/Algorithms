@@ -1,0 +1,203 @@
+1. This computes the product of a and b
+
+int product(int a, int b){
+  int sum = 0;
+  for(int i = 0; i < b; i++){
+    sum += a;
+  }
+  return sum;
+}
+
+=> O(b) since the loop iterates just through b as a bound
+
+2. This computes a^b
+
+int power(int a, int b){
+  if(b < 0){
+    return 0;
+  }
+  else if(b == 0){
+    return 1;
+  }
+  else{
+    return a * power(a, b - 1);
+  }
+}
+
+=> O(b) recursion goes through b calls
+
+3. This computes a % b
+
+int mod(int a, int b){
+  if(b <= 0){
+    return -1;
+  }
+  int div = a / b;
+  return a - div * b;
+}
+
+=> O(1) constant amount of work done
+
+4. This performs integer division (assume a and b are both positive)
+
+int div(int a, int b){
+  int count = 0;
+  int sum = b;
+  while(sum <= a){
+    sum += b;
+    count++;
+  }
+  return count;
+}
+
+=> O(a/b) initially though this was O(a) assuming worst case was b = 1. but
+we can look at this from a tighter bound since b is an arbitrary number.
+
+5. This computes the [integer] square root of a number. If the number is not a
+perfect square (there is no integer square root), then it returns -1. It does
+this by successive guessing. If n is 100, it first guesses 50. Too high? Try
+something lower - halfway between 1 and 50.
+
+int sqrt(int n){
+  return sqrt_helper(n, 1, n);
+}
+
+int sqrt_helper(int n, int min, int max){
+  if(max < min) return -1;
+  int guess = (min + max) / 2;
+  if(guess * guess == n){
+    return guess;
+  }
+  else if(guess * guess < n){
+    return sqrt_helper(n, guess + 1, max)
+  }
+  else{
+    return sqrt_helper(n, min, guess - 1);
+  }
+}
+
+=> O(log n) this algorithm is essentially a binary search for the square root
+
+6. This computes the [integer] square of a number. If the number is not a perfect
+square (there is no integer square root), then it returns -1. It does this by trying
+increasingly large numbers until it finds the right value (or it is too high).
+
+int sqrt(int n){
+  for(int guess = 1; guess * guess <= n; guess++){
+    if(guess * guess == n){
+      return guess;
+    }
+  }
+  return -1;
+}
+
+=> O(sqrt(n)) pretty simple: guess^2 <= n is equivalent to guess <= sqrt(n)
+
+7. If a binary search tree is not balanced, how long might it take (worst case) to
+find an element in it?
+
+=> O(n) worst case is a single chain of depth n
+
+8. You are looking for a specific value in a binary tree, but the tree is not a binary
+search tree. What is the time complexity of this?
+
+=> O(n) without ordering the worst case would be searching all nodes
+
+9. The appendToNew method appends a value to an array by creating a new, longer array and
+returning this longer array. How long does copying an array take?
+
+int[] copyArray(int[] array){
+  int[] copy = new int[0];
+  for(int value : array){
+    copy = appendToNew(copy, value);
+  }
+  return copy;
+}
+
+int[] appendToNew(int[] array, int value){
+  int[] bigger = new int[array.length + 1];
+  for(int i = 0; i < array.length; i++){
+    bigger[i] = array[i];
+  }
+  bigger[bigger.length - 1] = value;
+  return bigger;
+}
+
+=> O(n^2) initially had O(n) it is O(n^2) because the other loop is occurring in the function
+call made in line 112; thus we see array size ran through within itself
+
+10. The following code sums the digits in a number.
+
+int sumDigits(int n){
+  int sum = 0;
+  while(n > 0){
+    sum += n % 10;
+    n /= 10;
+  }
+  return sum;
+}
+
+=> O(log n) initially thought this was O(n) but I mistook the math behind the problem.
+We consider that the runtime is the number of digits in the number. Thus, a d digit
+number has a value of up to 10^d. If n = 10^d, d = log n resulting in our answer.
+
+11. The following code prints all strings of length k where the characters are in sorted
+order. It does this by generating all strings of length k and then checking if each is
+sorted.
+
+int numChars = 26;
+
+void printSortedStrings(int remaining){
+  printSortedStrings(remaining, "");
+}
+
+void printSortedStrings(int remaining, String prefix){
+  if(remaining == 0){
+    if(isInOrder(prefix)){
+      System.out.println(prefix);
+    }
+  }
+  else{
+    for(int i = 0; i < numChars; i++){
+      char c = ithLetter(i);
+      printSortedStrings(remaining - 1, prefix + c);
+    }
+  }
+}
+
+boolean isInOrder(String s){
+  for(int i = 1; i < s.length(); i++){
+    int prev = ithLetter(s.charAt(i - 1));
+    int curr = ithLetter(s.charAt(i));
+    if(prev > curr){
+      return false;
+    }
+  }
+  return true;
+}
+
+char ithLetter(int i){
+  return (char) (((int) 'a') + i);
+}
+
+=> O(kc^k) where k is the length of the string and c is the number of characters in the alphabet.
+It takes O(c^k) time to generate each string. It takes O(k) time to check if they are sorted.
+
+12. The following code computes the intersection (number of elements in common)
+of two arrays assuming no duplicates. It computes the intersection by sorting one
+array (b) then iterating through array a checking (via binary search) if each value is in b.
+
+int intersection(int[] a, int[] b){
+  mergesort(b);
+  int intersect = 0;
+  for(int x : a){
+    if(binarySearch(b, x) >= 0){
+      intersect++;
+    }
+  }
+  return intersect;
+}
+
+=> O(b log b) + O(a log b) = O(b log b + a log b) mergesort on b acts in O(b log b) time.
+binarySearch on b acts in O(log b) time multiplied by each element in a resulting in O(a log b).
+Put them together to get your answer.
