@@ -1,3 +1,13 @@
+/*
+
+Noah Park
+
+Problem:
+
+Implement an algorithm to deermine if a string has all unique characters. What if you cannot use additional data structures?
+
+*/
+
 import java.util.Hashtable;
 
 public class Is_Unique {
