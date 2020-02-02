@@ -1,1 +1,1 @@
-These are various implementations I came up with for array and string problems
+These are various algorithm solutions for Array and String type problems.
