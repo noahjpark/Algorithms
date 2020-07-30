@@ -1,1 +1,1 @@
-These are various algorithm solutions for Array and String type problems.
+These are my algorithmic solutions for Array and String type problems.
