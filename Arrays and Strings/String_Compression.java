@@ -1,3 +1,5 @@
+// Noah Park
+
 public class String_Compression {
 
     /*
