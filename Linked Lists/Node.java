@@ -1,39 +1,36 @@
-/*
+public class Node<T extends Comparable<T>> {
 
-Noah Park
+    // instance variables
+    private T data;
+    private Node<T> next;
 
-Simple Node implementation for a linked list to aid in testing the linked list algorithms
+    // constructors
+    public Node() {}
 
-*/
-
-public class Node {
-
-    // Initialize next node to null
-    private Node next = null;
-    private int data;
-
-    // Set data to the passed in data
-    public Node(int d){
-        this.data = d;
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
     }
 
-    // Return data
-    public int getData(){
-        return this.data;
+    public Node(T data, Node<T> next) {
+        this.data = data;
+        this.next = next;
     }
 
-    // Set new data
-    public void setData(int d){
-        this.data = d;
+    // selectors
+    public T getData() {
+        return data;
     }
 
-    // Return next node
-    public Node getNextNode(){
-        return this.next;
+    public void setData(T data) {
+        this.data = data;
     }
 
-    // Set new next node
-    public void setNextNode(Node n){
-        this.next = n;
+    public Node<T> getNext() {
+        return next;
+    }
+
+    public void setNext(Node<T> next) {
+        this.next = next;
     }
 }
