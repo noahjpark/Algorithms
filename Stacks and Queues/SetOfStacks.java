@@ -101,6 +101,8 @@ public class SetOfStacks<T extends Comparable<T>> {
         }
     }
 
+    // Pops the top element of the stack at a particular index in 'stacks'
+    // Does not complete the operation if the index is out of bounds
     public T popAt(int index){
         if(index < 0 || index >= this.stacks.length){
             System.out.println("Index out of bounds: Pop failed!");
