@@ -101,6 +101,21 @@ public class SetOfStacks<T extends Comparable<T>> {
         }
     }
 
+    public T popAt(int index){
+        if(index < 0 || index >= this.stacks.length){
+            System.out.println("Index out of bounds: Pop failed!");
+            return null;
+        }
+
+        if(!currentStackEmpty()){
+            return this.stacks[index].pop();
+        }
+        else{
+            System.out.println("Stack at index " + index + " is empty: Pop failed!");
+            return null;
+        }
+    }
+
     // Check if 'stacks' is full - currentStack pointer is at 'stacks' length
     public boolean isFull(){
         return this.currentStack == this.stacks.length;
@@ -156,5 +171,13 @@ public class SetOfStacks<T extends Comparable<T>> {
         s.pop();
         System.out.println(s);
         s.pop();
+
+        s.push("first");
+        s.push("second");
+        s.push("third");
+        s.push("fourth");
+
+        s.popAt(0);
+        System.out.println(s);
     }
 }
