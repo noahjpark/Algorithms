@@ -1,1 +1,1 @@
-These are various algorithm solutions for Linked List type problems.
+These are my algorithmic solutions for Linked List type problems.
