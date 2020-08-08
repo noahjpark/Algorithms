@@ -50,6 +50,14 @@ public class Stack<T extends Comparable<T>> {
         }
     }
 
+    public T peek(){
+        if(!this.isEmpty()){
+            return stack[top - 1];
+        }
+        System.out.println("Stack is Empty: Failed to peek");
+        return null;
+    }
+
     // If top is at the stack's length, the stack is full
     public boolean isFull(){
         return this.top == this.stack.length;
@@ -63,5 +71,17 @@ public class Stack<T extends Comparable<T>> {
     // Returns the current number of elements in the stack
     public int getSize(){
         return this.top;
+    }
+
+    // prints the stack like a stack from top to bottom
+    public String toString(){
+        String s = "";
+        s += "TOP\n";
+        for(int i = top - 1; i >= 0; i--){
+            s += stack[i];
+            s += "\n";
+        }
+        s += "BOTTOM\n";
+        return s;
     }
 }
