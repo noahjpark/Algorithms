@@ -20,7 +20,7 @@ public class Graph<T extends Comparable<T>> {
         return this.nodes;
     }
 
-    public void addNode(Node node){
+    public void addNode(Node<T> node){
         this.nodes.add(node);
     }
 
@@ -124,4 +124,42 @@ public class Graph<T extends Comparable<T>> {
         return false;
     }
 
+    // Removes a node from the tree
+    public void remove(Node<T> node){
+        // Remove the node from the nodes list if it matches 'node'
+        nodes.remove(node);
+
+        // Remove all existing children that match 'node'
+        for(Node<T> n : nodes){
+            if(n.getChildren().contains(node)){
+                n.removeChild(node);
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        Graph<Character> g = new Graph<>();
+        Node<Character> a = new Node<>('a');
+        Node<Character> b = new Node<>('b');
+        Node<Character> c = new Node<>('c');
+        Node<Character> d = new Node<>('d');
+
+        a.addChild(b);
+        b.addChild(c);
+        c.addChild(d);
+
+        g.addNode(a);
+        g.addNode(b);
+        g.addNode(c);
+        g.addNode(d);
+
+        g.remove(d);
+        for(Node<Character> n : g.getNodes()){
+            System.out.print(n.getName());
+            for(Node<Character> child : n.getChildren()){
+                System.out.print(" " + child.getName());
+            }
+            System.out.println();
+        }
+    }
 }
