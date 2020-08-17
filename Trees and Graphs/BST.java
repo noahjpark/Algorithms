@@ -51,4 +51,23 @@ public class BST<T extends Comparable<T>> {
         }
     }
 
+    // Returns the size of the BST
+    public int getSize(){
+        int ans = 0;
+        Stack<BinaryNode<T>> s = new Stack<>();
+        s.push(this.root);
+        while(!s.isEmpty()){
+            BinaryNode<T> node = s.pop();
+            ans++;
+            if(node.getLeft() != null){
+                s.push(node.getLeft());
+            }
+            if(node.getRight() != null){
+                s.push(node.getRight());
+            }
+        }
+
+        return ans;
+    }
+
 }
