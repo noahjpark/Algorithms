@@ -68,7 +68,7 @@ public class Node<T extends Comparable<T>> {
     // Compare two nodes to check if they are equal or not
     public boolean equals(Node<T> other) {
         // Check that the names match
-        if(this.getName().compareTo(other.getName()) != 0){
+        if(this.getName().compareTo(other.getName()) != 0 || this.getChildren().size() != other.getChildren().size()){
             return false;
         }
 
@@ -82,5 +82,26 @@ public class Node<T extends Comparable<T>> {
 
         // Everything matches, the nodes are equal and we return true
         return true;
+    }
+
+    // Removes the child 'node' from the children list
+    public void removeChild(Node<T> node){
+        children.remove(node);
+    }
+
+    // Basic testing of the class
+    public static void main(String[] args){
+        Node<Character> a = new Node<>('a');
+        Node<Character> f = new Node<>('f');
+        Node<Character> d = new Node<>('d');
+
+        a.addChild(f);
+        a.addChild(d);
+
+        System.out.println(a.getChildren());
+
+        a.removeChild(f);
+
+        System.out.println(a.getChildren());
     }
 }
