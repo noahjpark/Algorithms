@@ -1,4 +1,6 @@
 // Noah Park
+// Problem: Given a square array of integers A, we want the minimum sum of a falling path through A. A falling path starts at any element in the first row, and chooses one 
+// element from each row.  The next row's choice must be in a column that is different from the previous row's column by at most one.
 // Non Dynamic Programming Solution
 
 class Solution {
@@ -20,6 +22,7 @@ class Solution {
         
         int total = Integer.MAX_VALUE;
         
+        // Update the total's with the next best values.
         total = Math.min(total, A[r][c] + helper(r + 1, c, A));
         total = Math.min(total, A[r][c] + helper(r + 1, c + 1, A));
         total = Math.min(total, A[r][c] + helper(r + 1, c - 1, A));
