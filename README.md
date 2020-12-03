@@ -1,4 +1,4 @@
-# Cracking the Coding Interview | AlgoExpert Algorithms | LeetCode Algorithms
+# LeetCode | Cracking the Coding Interview | AlgoExpert
 This repository contains original algorithms I created as solutions for problems from Cracking the Coding Interview, AlgoExpert.io, and LeetCode
 
 ![AlgoExpert](https://github.com/noahjpark/Algorithms/blob/master/images/social-logo.png?raw=true)
