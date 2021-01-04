@@ -7,7 +7,29 @@ Return the max sliding window.
 */
 
 class Solution {
+     // Time: O(n) | Space: O(k)
     public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k <= 0) return new int[]{}; // edge cases
+        
+        int n = nums.length;
+        int[] res = new int[n - k + 1]; // resulting maxes
+        Deque<Integer> q = new ArrayDeque<>(); // array deque of always decreasing values corresponding with the indexes in nums
+        
+        // iterate over the numbers
+        for (int i = 0; i < n; i++) {
+            if (!q.isEmpty() && q.peekFirst() < (i - k + 1)) q.pollFirst(); // shrink window so it is always 'k' size based on the lowest index in the queue
+            
+            while (!q.isEmpty() && nums[q.peekLast()] <= nums[i]) q.pollLast(); // essentially we are ensuring the queue is always decreasing, we are trying to put nums[i] in the queue where it is in proper decreased order; numbers smaller than nums[i] are irrelevant to this problem
+            
+            q.offer(i); // always add our current index
+            
+            if (i - k + 1 >= 0) res[i - k + 1] = nums[q.peekFirst()]; // once we reach a size k window, we will always add the current max in from the deque (the start)
+        }
+        
+        return res;
+    }
+    
+    public int[] maxSlidingWindowSubOptimal(int[] nums, int k) {
         if(k == 1) return nums;
         if(k == 0) return new int[0];
         List<Integer> res = new ArrayList<>();
