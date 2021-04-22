@@ -1,0 +1,30 @@
+/* Noah Park
+
+Given an array nums, return true if the array was originally sorted in non-decreasing order, then rotated some number of positions (including zero). Otherwise, return false.
+
+There may be duplicates in the original array.
+
+Note: An array A rotated by x positions results in an array B of the same length such that A[i] == B[(i+x) % A.length], where % is the modulo operation.
+
+*/
+
+class Solution {
+    
+    // Intuition: Straightforward linear search. Compare each value to the one in front of it and mark that the array is rotated if the preceding element is larger than the one following it. Finally, we check the end to the start in case two elements were swapped instead of rotated.
+    // Time: O(n) iterating over nums.
+    // Space: O(1) constant.
+    public boolean check(int[] nums) {
+        boolean rotated = false;
+        
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] > nums[i + 1]) {
+                if (rotated) return false;
+                rotated = true;
+            }
+        }
+        
+        if (rotated && nums[nums.length - 1] > nums[0]) return false; // wrap around
+        
+        return true;
+    }
+}
