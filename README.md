@@ -1,5 +1,5 @@
 # LeetCode | Cracking the Coding Interview | AlgoExpert
-This repository contains original algorithms I created as solutions for problems from Cracking the Coding Interview, AlgoExpert.io, and LeetCode
+This repository contains original and learned algorithms I created as solutions for problems from LeetCode, AlgoExpert, and CTCI.
 
 ![LeetCode](https://github.com/noahjpark/Algorithms/blob/master/images/LeetCode.png?raw=true)
 
