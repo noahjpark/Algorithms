@@ -11,6 +11,7 @@ getMin() -- Retrieve the minimum element in the stack.
 
 class MinStack {
     
+    // Intuition: Maintain the normal stack then an ordered (minimum at the top) stack of the minimum elements. We don't care about larger elements in between. If we popped a min element, then next min would be the element smaller than the larger ones. We would need to pop off the larger elements in between to reach the next min element. 
     Stack<Integer> stack; // stores typical elements
     Stack<Integer> min;   // stores min elements
     
@@ -26,8 +27,7 @@ class MinStack {
     }
     
     public void pop() {
-        if (stack.peek().equals(min.peek())) min.pop(); // if we are popping the min, remove from the min stack
-        stack.pop();
+        if (stack.pop().equals(min.peek())) min.pop(); // if we are popping the min, remove from the min stack
     }
     
     public int top() {
