@@ -1,55 +1,61 @@
-/* Noah Park
-
-You are given a m x n 2D grid initialized with these three possible values.
-
--1 - A wall or an obstacle.
-0 - A gate.
-INF - Infinity means an empty room. We use the value 231 - 1 = 2147483647 to represent INF as you may assume that the distance to a gate is less than 2147483647.
-Fill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with INF.
-
-*/
-
-class Solution {  
-    // TLE on overriding each gate, we have to do it in one pass
+class Solution {
+    
+    // Intuition: Started with a bfs from each gate while optimizing to not update already minimized distances. From here the only way to go was to do all gates at once rather than one at a time.
+    // Time: O(n*m) to check the rooms.
+    // Space: O(n*m) for the visited structure and queue since all rooms could be gates.
     public void wallsAndGates(int[][] rooms) {
-        if (rooms == null || rooms.length == 0) return; // edge case if rooms is empty or null
+        if (rooms == null || rooms.length == 0) return;
         
-        // num rows, cols, and max value as local storage
-        int rows = rooms.length, cols = rooms[0].length, max = Integer.MAX_VALUE;
-        Queue<int[]> q = new LinkedList<>(); // queue for bfs implementation
+        int rows = rooms.length, cols = rooms[0].length, dis = 0;
+        boolean[][] visited = new boolean[rows][cols];
+        Queue<int[]> q = new ArrayDeque<>();
         
-        // iterate through the rooms and add all gates to the queue so we can evenly update the adjacent cells until there are no more INF
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if(rooms[i][j] == 0) q.offer(new int[]{ i, j });
-            }
-        }
+        for (int i = 0; i < rows; i++) 
+            for (int j = 0; j < cols; j++) 
+                if (rooms[i][j] == 0) q.add(new int[]{ i, j });
         
-        // traverse until there are no more INF
         while (!q.isEmpty()) {
-            int[] cur = q.poll(); // current coordinates and new distance from previous cell
-            int r = cur[0], c = cur[1], val = rooms[r][c] + 1;
+            int level = q.size(); 
             
-            // check the cell above to see if it has not been updated yet, update if so and add to the queue
-            if (r > 0 && rooms[r - 1][c] == max) { 
-                rooms[r - 1][c] = val; 
-                q.offer(new int[]{ r - 1, c }); 
+            for (int k = 0; k < level; k++) {
+                int row = q.peek()[0], col = q.poll()[1];
+                
+                if (rooms[row][col] <= dis && rooms[row][col] > 0) continue;
+                rooms[row][col] = dis;
+                
+                if (row - 1 >= 0 && rooms[row - 1][col] == Integer.MAX_VALUE && !visited[row - 1][col]) { q.offer(new int[]{ row - 1, col }); visited[row - 1][col] = true; }
+                if (col - 1 >= 0 && rooms[row][col - 1] == Integer.MAX_VALUE && !visited[row][col - 1]) { q.offer(new int[]{ row, col - 1 }); visited[row][col - 1] = true; }
+                if (row + 1 < rooms.length && rooms[row + 1][col] == Integer.MAX_VALUE && !visited[row + 1][col]) { q.offer(new int[]{ row + 1, col }); visited[row + 1][col] = true; }
+                if (col + 1 < rooms[0].length && rooms[row][col + 1] == Integer.MAX_VALUE && !visited[row][col + 1]) { q.offer(new int[]{ row, col + 1 }); visited[row][col + 1] = true; }
             }
-            // check the cell below to see if it has not been updated yet, update if so and add to the queue
-            if (r < rows - 1 && rooms[r + 1][c] == max) { 
-                rooms[r + 1][c] = val; 
-                q.offer(new int[]{ r + 1, c });
-            }
-            // check the cell left to see if it has not been updated yet, update if so and add to the queue
-            if (c > 0 && rooms[r][c - 1] == max) {
-                rooms[r][c - 1] = val;
-                q.offer(new int[]{ r, c - 1 }); 
-            }
-            // check the cell right to see if it has not been updated yet, update if so and add to the queue
-            if (c < cols - 1 && rooms[r][c + 1] == max) {
-                rooms[r][c + 1] = val; 
-                q.offer(new int[]{ r, c + 1 }); 
-            }
+            
+            dis++;
         }
     }
+    
+    public void bfs(int[][] rooms, int i, int j) {
+        boolean[][] visited = new boolean[rooms.length][rooms[0].length];
+        Queue<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{ i, j });
+        visited[i][j] = true;
+        int dis = 0;
+        
+        while (!q.isEmpty()) {
+            int level = q.size();
+            
+            for (int k = 0; k < level; k++) {
+                int row = q.peek()[0], col = q.poll()[1];
+                
+                if (rooms[row][col] <= dis && rooms[row][col] > 0) continue;
+                rooms[row][col] = dis;
+                
+                if (row - 1 >= 0 && rooms[row - 1][col] > 0 && !visited[row - 1][col]) { q.offer(new int[]{ row - 1, col }); visited[row - 1][col] = true; }
+                if (col - 1 >= 0 && rooms[row][col - 1] > 0 && !visited[row][col - 1]) { q.offer(new int[]{ row, col - 1 }); visited[row][col - 1] = true; }
+                if (row + 1 < rooms.length && rooms[row + 1][col] > 0 && !visited[row + 1][col]) { q.offer(new int[]{ row + 1, col }); visited[row + 1][col] = true; }
+                if (col + 1 < rooms[0].length && rooms[row][col + 1] > 0 && !visited[row][col + 1]) { q.offer(new int[]{ row, col + 1 }); visited[row][col + 1] = true; }
+            }
+            dis++;
+        }
+    } 
+        
 }
