@@ -7,27 +7,30 @@ Return the max sliding window.
 */
 
 class Solution {
-     // Time: O(n) | Space: O(k)
+    
+    // Intuition: Straightforward monoqueue problem. Maintain a monotonically decreasing queue where the first element is the largest in the queue which easily allows us to achieve the sliding window maximum.
+    // Time: O(n) to iterate over nums.
+    // Space: O(n) for the result. O(k) for the queue.
     public int[] maxSlidingWindow(int[] nums, int k) {
-        if (nums == null || nums.length == 0 || k <= 0) return new int[]{}; // edge cases
+        if (nums == null || nums.length <= 1 || k == 1) return nums;
         
-        int n = nums.length;
-        int[] res = new int[n - k + 1]; // resulting maxes
-        Deque<Integer> q = new ArrayDeque<>(); // array deque of always decreasing values corresponding with the indexes in nums
+        int n = nums.length, idx = 0;
+        int[] res = new int[n - k + 1];
         
-        // iterate over the numbers
-        for (int i = 0; i < n; i++) {
-            if (!q.isEmpty() && q.peekFirst() < (i - k + 1)) q.pollFirst(); // shrink window so it is always 'k' size based on the lowest index in the queue
+        Deque<Integer> q = new LinkedList<>();
+        q.addLast(0);
+        
+        for (int i = 1; i < n; i++) {            
+            while (!q.isEmpty() && nums[q.getLast()] <= nums[i]) q.removeLast();
+            q.addLast(i);
             
-            while (!q.isEmpty() && nums[q.peekLast()] <= nums[i]) q.pollLast(); // essentially we are ensuring the queue is always decreasing, we are trying to put nums[i] in the queue where it is in proper decreased order; numbers smaller than nums[i] are irrelevant to this problem
-            
-            q.offer(i); // always add our current index
-            
-            if (i - k + 1 >= 0) res[i - k + 1] = nums[q.peekFirst()]; // once we reach a size k window, we will always add the current max in from the deque (the start)
+            if (q.getFirst() + k <= i) q.removeFirst();
+            if (i >= k - 1) res[idx++] = nums[q.getFirst()];
         }
         
         return res;
     }
+}
     
     public int[] maxSlidingWindowSubOptimal(int[] nums, int k) {
         if(k == 1) return nums;
