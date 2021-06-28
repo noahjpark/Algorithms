@@ -9,6 +9,8 @@ class Solution {
     int i = 0;
     
     // Intuition: Maintain the minimum and maximum allowed values as we "traverse" the preorder. When we reach points that the current value is invalid, we stop traversing that branch and come back to go to try it at other branches. We know we have a valid preorder sequence if the index is at the end of the preorder meaning we have used each preorder value in a valid position.
+    // Time: O(n) to iterate over the preorder sequence.
+    // Space: O(n) for the depth of the recursion.
     public boolean verifyPreorder(int[] preorder) {
         preorder(preorder, Integer.MIN_VALUE, Integer.MAX_VALUE);
         return i == preorder.length;
